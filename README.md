@@ -144,3 +144,87 @@ This repository focuses on:
 }
 ```
 
+#  FAQ / Q&A
+
+This section addresses common issues when running the **VGGT → COLMAP → Gaussian Splatting (gsplat)** pipeline.
+
+------
+
+## **Q1. VGGT / VGGSfM weights download slowly. How can I switch to hf-mirror?**
+
+VGGT and VGGSfM weight URLs appear in:
+
+- `vggt/demo_colmap.py`
+
+  ```
+  _URL = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
+  ```
+
+- `vggt/vggt/dependency/vggsfm_utils.py`
+
+  ```
+  default_url = "https://huggingface.co/facebook/VGGSfM/resolve/main/vggsfm_v2_tracker.pt"
+  ```
+
+Replace them with **hf-mirror** versions:
+
+```
+_URL = "https://hf-mirror.com/facebook/VGGT-1B/resolve/main/model.pt"
+default_url = "https://hf-mirror.com/facebook/VGGSfM/resolve/main/vggsfm_v2_tracker.pt"
+```
+
+------
+
+## **Q2. DINOv2 fails to load due to `torch.hub.load("facebookresearch/dinov2")`. What should I do?**
+
+The error occurs inside:
+
+`vggt/vggt/dependency/vggsfm_utils.py`
+ specifically in:
+
+```
+dino_v2_model = torch.hub.load("facebookresearch/dinov2", model_name)
+```
+
+If the server cannot access GitHub, this call may fail with errors .
+
+Refer to the official resources for manual download or alternative setup:
+
+- GitHub: https://github.com/facebookresearch/dinov2
+- Documentation: https://dinov2.metademolab.com/
+
+You may download the model files manually and load them locally.
+
+------
+
+## **Q3. pycolmap or other GitHub-based packages fail to install.**
+
+Some dependencies like **pycolmap** require direct GitHub access.
+ If GitHub is blocked or unstable, installation via pip may fail.
+
+In such cases, clone the corresponding repositories manually and install them locally.
+
+
+
+------
+
+## **Q4. How do I change the default cache directory for model downloads?**
+
+You can redirect model downloads (PyTorch, HuggingFace, torch.hub) to your own custom location.
+
+### **Bash**
+
+```
+export TORCH_HOME=/path/to/your/cache
+export HF_HOME=/path/to/your/cache
+export TRANSFORMERS_CACHE=/path/to/your/cache
+export HF_DATASETS_CACHE=/path/to/your/cache
+```
+
+### **Python**
+
+```
+os.environ["TORCH_HOME"] = "/path/to/your/cache"
+```
+
+Replace `/path/to/your/cache` with any directory you own.
