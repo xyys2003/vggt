@@ -199,7 +199,7 @@ You may download the model files manually and load them locally.
 
 ## **Q3. pycolmap or other GitHub-based packages fail to install.**
 
-Some dependencies like **pycolmap** require direct GitHub access.
+Some dependencies like **lightglue,pycolmap** require direct GitHub access.
  If GitHub is blocked or unstable, installation via pip may fail.
 
 In such cases, clone the corresponding repositories manually and install them locally.
