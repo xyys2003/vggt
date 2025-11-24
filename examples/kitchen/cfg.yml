@@ -48,7 +48,7 @@ quats_lr: 0.001
 random_bkgd: false
 render_traj_path: interp
 result_dir: /data/yufei/vggt/examples/kitchen
-save_ply: false
+save_ply: true
 save_steps:
 - 7000
 - 30000

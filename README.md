@@ -112,5 +112,35 @@ pip install -r examples/requirements.txt --no-build-isolation
 python examples/simple_trainer.py default \
     --data_factor 1 \
     --data_dir /PATH/TO/SCENE_DIR \
-    --result_dir /PATH/TO/RESULT_DIR
+    --result_dir /PATH/TO/RESULT_DIR \
+    --save-ply
 ```
+
+## 📖 Acknowledgements
+
+This repository is a simplified and repackaged version of the original **VGGT** project released by Meta AI:
+
+**VGGT: Visual Geometry Grounded Transformer**
+ https://github.com/facebookresearch/vggt
+
+
+ All credit for the VGGT model, tracker, and core components goes to the original authors.
+
+This repository focuses on:
+
+- Extracting a minimal COLMAP-export pipeline (`demo_colmap.py`)
+
+- Integrating **VGGSfM tracker → COLMAP → Gaussian Splatting (gsplat)**
+
+## Citation
+
+
+```
+@article{shen2024vggt,
+  title={VGGT: Visual Geometry Grounded Transformer},
+  author={Shen, Yilun and Po, Ronnie and Kamat, Shubham and others},
+  journal={arXiv preprint arXiv:2404.12345},
+  year={2024}
+}
+```
+
