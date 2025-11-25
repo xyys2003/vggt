@@ -1,3 +1,5 @@
+[English](README.md) | [中文](README_zh.md)
+
 # VGGT → COLMAP → Gaussian Splatting (3DGS) Example
 
 This repository provides a **minimal end-to-end example** demonstrating:
