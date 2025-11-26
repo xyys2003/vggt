@@ -167,3 +167,86 @@ python examples/simple_trainer.py default \
   year={2024}
 }
 ```
+
+# Q&A 常见问题解答
+
+## Q1. VGGT / VGGSfM 权重下载缓慢，如何切换到 hf-mirror？
+
+VGGT 和 VGGSfM 的权重下载链接分别位于：
+
+- `vggt/demo_colmap.py`
+
+```
+_URL = "https://huggingface.co/facebook/VGGT-1B/resolve/main/model.pt"
+```
+
+- `vggt/vggt/dependency/vggsfm_utils.py`
+
+```
+default_url = "https://huggingface.co/facebook/VGGSfM/resolve/main/vggsfm_v2_tracker.pt"
+```
+
+如果服务器访问 huggingface 较慢，可以将其替换为 hf-mirror 镜像：
+
+```
+_URL = "https://hf-mirror.com/facebook/VGGT-1B/resolve/main/model.pt"
+default_url = "https://hf-mirror.com/facebook/VGGSfM/resolve/main/vggsfm_v2_tracker.pt"
+```
+
+替换后，模型会从镜像源下载，速度更快且稳定。
+
+------
+
+## Q2. DINOv2 加载失败，提示 torch.hub 无法访问 GitHub，怎么办？
+
+在文件 `vggt/vggt/dependency/vggsfm_utils.py` 中包含以下代码：
+
+```
+dino_v2_model = torch.hub.load("facebookresearch/dinov2", model_name)
+```
+
+如果服务器无法访问 GitHub，则 torch.hub 会报错。
+
+可选解决方法：
+
+1. 手动下载 DINOv2 仓库与权重，并在本地加载
+2. 配置代理或镜像以确保能访问 GitHub
+3. 从官方仓库获取：
+
+- GitHub: https://github.com/facebookresearch/dinov2
+- Documentation: https://dinov2.metademolab.com/
+
+------
+
+## Q3. 安装 pycolmap 或其他 GitHub 来源的依赖时报错怎么办？
+
+一些依赖（例如 LightGlue、pycolmap、部分结构化匹配工具）需要直接从 GitHub 下载源码。
+
+如果服务器无法访问 GitHub，可以采用以下方案：
+
+1. 手动克隆相关仓库并本地安装
+2. 在本地已有网络环境中下载源码，再上传到服务器
+3. 使用镜像服务（如 ghproxy、ghfast、kgithub）
+
+------
+
+## Q4. 如何修改默认的模型缓存目录？
+
+如果你不希望模型下载到默认的 `~/.cache` 目录，可以通过环境变量修改 PyTorch、HuggingFace 等组件的缓存路径。
+
+### Bash 方式：
+
+```
+export TORCH_HOME=/path/to/your/cache
+export HF_HOME=/path/to/your/cache
+export TRANSFORMERS_CACHE=/path/to/your/cache
+export HF_DATASETS_CACHE=/path/to/your/cache
+```
+
+### Python 方式：
+
+```
+os.environ["TORCH_HOME"] = "/path/to/your/cache"
+```
+
+其中 `/path/to/your/cache` 是你希望放置模型文件的路径。
